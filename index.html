@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca de Alexandria Virtual</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Biblioteca de Alexandria Virtual</h1>
+            <p class="subtitle">Todos os livros possíveis que já foram ou serão escritos</p>
+            <nav>
+                <a href="#" id="link-explore">Explorar</a>
+                <a href="#" id="link-search">Buscar</a>
+                <a href="#" id="link-about">Sobre</a>
+                <a href="#" id="link-reference">Referência</a>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="container">
+        <section id="intro" class="intro">
+            <p>Bem-vindo à Biblioteca de Alexandria Virtual, inspirada na Biblioteca de Babel de Jorge Luis Borges. Esta biblioteca contém todos os textos possíveis que podem ser escritos com letras minúsculas, espaços, vírgulas e pontos.</p>
+            <p>Cada livro é identificado por coordenadas únicas. Use os controles abaixo para navegar pela biblioteca ou buscar textos específicos.</p>
+        </section>
+        
+        <section id="book-explorer" class="book-container">
+            <h2>Explorador de Livros</h2>
+            <div class="search-controls">
+                <div class="control-group">
+                    <label for="sala">Sala:</label>
+                    <input type="text" id="sala" placeholder="Hexadecimal" value="1a2b3c4d">
+                </div>
+                <div class="control-group">
+                    <label for="prateleira">Prateleira:</label>
+                    <input type="number" id="prateleira" min="1" max="5" value="3">
+                </div>
+                <div class="control-group">
+                    <label for="livro">Livro:</label>
+                    <input type="number" id="livro" min="1" max="32" value="16">
+                </div>
+                <div class="control-group">
+                    <label for="pagina">Página:</label>
+                    <input type="number" id="pagina" min="1" max="410" value="42">
+                </div>
+                <div class="control-group">
+                    <button id="btn-random">Livro Aleatório</button>
+                </div>
+                <div class="control-group">
+                    <button id="btn-generate">Gerar Livro</button>
+                </div>
+            </div>
+            
+            <div class="book-display" id="book-content">
+                Carregando...
+            </div>
+            
+            <div class="book-info">
+                <p>Coordenadas: <span class="coordinates" id="current-coords">Sala 1a2b3c4d, Prateleira 3, Livro 16, Página 42</span></p>
+                <p>Esta página contém um dos infinitos textos possíveis gerados algoritmicamente.</p>
+            </div>
+        </section>
+        
+        <section id="text-search" class="book-container" style="display: none;">
+            <h2>Buscar Texto</h2>
+            <div class="search-controls">
+                <div class="control-group" style="flex: 2;">
+                    <label for="search-text">Digite o texto para buscar:</label>
+                    <input type="text" id="search-text" placeholder="Texto para encontrar na biblioteca...">
+                </div>
+                <div class="control-group">
+                    <button id="btn-search">Buscar</button>
+                </div>
+            </div>
+            
+            <div id="search-results" class="book-info" style="display: none;">
+                <h3>Resultados da Busca</h3>
+                <p>Texto encontrado nas coordenadas: <span class="coordinates" id="search-coords"></span></p>
+                <button id="btn-goto-result">Ir para este livro</button>
+            </div>
+        </section>
+        
+        <section id="about" class="book-container" style="display: none;">
+            <h2>Sobre a Biblioteca</h2>
+            <p>A Biblioteca de Alexandria Virtual é inspirada na obra "A Biblioteca de Babel" do escritor argentino Jorge Luis Borges. Na história de Borges, a biblioteca contém todos os livros possíveis de 410 páginas.</p>
+            <p>Esta versão digital simula esse conceito usando um algoritmo determinístico que gera texto pseudoaleatório baseado nas coordenadas fornecidas.</p>
+            <p>Cada coordenada representa um livro único na biblioteca, permitindo que você "visite" o mesmo livro sempre que inserir as mesmas coordenadas.</p>
+            <p>Conceitualmente, esta biblioteca contém todos os textos que podem ser escritos: todos os clássicos da literatura, todas as biografias (verdadeiras e falsas), todos os livros que ainda serão escritos, e infinitas variações de textos sem sentido.</p>
+        </section>
+        
+        <section id="reference" class="book-container" style="display: none;">
+            <h2>Referência</h2>
+            <p>Como usar a Biblioteca de Alexandria Virtual:</p>
+            <ul>
+                <li><strong>Explorar:</strong> Use coordenadas específicas para encontrar um livro.</li>
+                <li><strong>Livro Aleatório:</strong> Gera coordenadas aleatórias para um novo livro.</li>
+                <li><strong>Buscar:</strong> Encontre as coordenadas de um texto específico.</li>
+            </ul>
+            <p>Cada livro tem coordenadas únicas:</p>
+            <ul>
+                <li><strong>Sala:</strong> Um código hexadecimal de 8 caracteres (ex: 1a2b3c4d)</li>
+                <li><strong>Prateleira:</strong> Um número de 1 a 5</li>
+                <li><strong>Livro:</strong> Um número de 1 a 32</li>
+                <li><strong>Página:</strong> Um número de 1 a 410</li>
+            </ul>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p>Biblioteca de Alexandria Virtual - Inspirada na Biblioteca de Babel de Jorge Luis Borges</p>
+            <p>Este projeto é uma demonstração conceitual.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
