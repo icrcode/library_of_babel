@@ -20,12 +20,17 @@ body {
     line-height: 1.6;
     background-image: url('https://www.toptal.com/designers/subtlepatterns/uploads/papyrus.png');
     background-repeat: repeat;
+    margin: 0;
+    padding: 0;
+    text-align: justify;
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 header {
@@ -37,6 +42,7 @@ header {
     background-position: center;
     position: relative;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    margin-bottom: 40px;
 }
 
 header::before {
@@ -85,7 +91,7 @@ nav a {
     text-decoration: none;
     padding: 8px 15px;
     border: 1px solid var(--accent-color);
-    border-radius: 0;
+    border-radius: 12px;
     transition: all 0.3s ease;
     font-family: 'Georgia', Times, serif;
     text-transform: uppercase;
@@ -99,16 +105,20 @@ nav a:hover {
 }
 
 main {
-    padding: 40px 0;
+    padding: 40px;
     background-color: var(--paper-color);
     box-shadow: 0 0 15px rgba(0,0,0,0.2);
     border-left: 1px solid #d9d0b0;
     border-right: 1px solid #d9d0b0;
+    border-radius: 20px;
+    margin: 20px 15px;
+    overflow: hidden;
+    text-align: justify;
 }
 
 .intro {
     padding: 30px;
-    text-align: center;
+    text-align: justify;
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
@@ -121,12 +131,13 @@ main {
 
 .intro p {
     margin-bottom: 20px;
+    text-align: justify;
 }
 
 .book-container {
     background-color: var(--paper-color);
-    padding: 20px;
-    border-radius: 0;
+    padding: 25px;
+    border-radius: 15px;
     margin-bottom: 40px;
     border: 1px solid #d9d0b0;
 }
@@ -144,8 +155,8 @@ main {
 .search-controls {
     display: flex;
     flex-direction: column;
-    align-items:center;
-    justify-content:center;
+    align-items: center;
+    justify-content: center;
     gap: 20px;
     margin-bottom: 30px;
 }
@@ -154,6 +165,7 @@ main {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: 100%;
 }
 
 label {
@@ -163,37 +175,42 @@ label {
 }
 
 input, select {
-    padding: 10px;
+    padding: 12px;
     border: 1px solid var(--accent-color);
-    border-radius: 0;
+    border-radius: 10px;
     background-color: #fff;
     color: var(--text-color);
     font-family: 'Times New Roman', Times, serif;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 button {
-    padding: 10px 20px;
+    padding: 12px 20px;
     background-color: var(--accent-color);
     color: var(--paper-color);
     border: none;
-    border-radius: 0;
+    border-radius: 10px;
     cursor: pointer;
     font-weight: bold;
     transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 1px;
     font-family: 'Georgia', Times, serif;
+    width: 100%;
 }
 
 button:hover {
     background-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 .book-display {
     background-color: #fffcf0;
     color: #333;
     padding: 30px;
-    border-radius: 0;
+    border-radius: 15px;
     min-height: 400px;
     font-family: 'Courier New', monospace;
     white-space: pre-wrap;
@@ -204,6 +221,7 @@ button:hover {
     border: 1px solid #d9d0b0;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     column-count: 1;
+    text-align: justify;
 }
 
 /* Adicionando estilo apenas quando não tiver destaque */
@@ -211,25 +229,29 @@ button:hover {
     white-space: pre-wrap;
     font-family: 'Courier New', monospace;
     line-height: 1.8;
+    text-align: justify;
 }
 
 .book-info {
     margin-top: 20px;
     padding: 15px;
     background-color: var(--bg-color);
-    border-radius: 0;
+    border-radius: 12px;
     border-left: 3px solid var(--accent-color);
+    text-align: justify;
 }
 
 .book-info h3 {
     color: var(--primary-color);
     margin-bottom: 15px;
     font-family: 'Georgia', Times, serif;
+    text-align: center;
 }
 
 .book-info p {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     font-family: 'Times New Roman', Times, serif;
+    text-align: justify;
 }
 
 footer {
@@ -259,7 +281,7 @@ footer {
     width: 100%;
     height: 20px;
     background-color: var(--bg-color);
-    border-radius: 0;
+    border-radius: 10px;
     margin: 15px 0;
     overflow: hidden;
     position: relative;
@@ -271,12 +293,12 @@ footer {
     width: 0;
     background-color: var(--accent-color);
     transition: width 0.5s ease;
-    border-radius: 0;
+    border-radius: 10px;
 }
 
 #search-stats {
     background-color: var(--bg-color);
-    border-radius: 0;
+    border-radius: 12px;
     padding: 15px;
     margin-bottom: 20px;
     border-left: 3px solid var(--accent-color);
@@ -289,7 +311,8 @@ footer {
 }
 
 #search-stats p {
-    margin-bottom: 8px;
+    margin-bottom: 12px;
+    text-align: justify;
 }
 
 #tempo-decorrido, #tentativas-busca, #velocidade-busca, #estimativa-tempo {
@@ -303,21 +326,25 @@ footer {
     background-color: var(--bg-color);
     border-left: 3px solid var(--accent-color);
     padding: 15px;
+    border-radius: 12px;
+    text-align: justify;
 }
 
 #algorithm-info h3 {
     color: var(--primary-color);
     margin-bottom: 10px;
+    text-align: center;
 }
 
 #algorithm-info p {
-    margin-bottom: 8px;
+    margin-bottom: 12px;
+    text-align: justify;
 }
 
 select {
-    padding: 10px;
+    padding: 12px;
     border: 1px solid var(--accent-color);
-    border-radius: 0;
+    border-radius: 10px;
     background-color: #fff;
     color: var(--text-color);
     width: 100%;
@@ -330,7 +357,7 @@ select {
     color: var(--paper-color);
     font-weight: bold;
     padding: 0 2px;
-    border-radius: 0;
+    border-radius: 4px;
     box-shadow: 0 0 3px rgba(139, 94, 52, 0.5);
 }
 
@@ -347,6 +374,9 @@ select {
 .book-paragraph {
     text-indent: 30px;
     margin-bottom: 15px;
+    text-align: justify;
+    position: relative;
+    overflow-wrap: break-word;
 }
 
 /* Primeira letra estilizada dos parágrafos */
@@ -362,11 +392,29 @@ select {
 #about {
     font-family: 'Georgia', Times, serif;
     line-height: 1.8;
+    text-align: justify;
 }
 
 #about p {
     margin-bottom: 15px;
     text-indent: 30px;
+    text-align: justify;
+}
+
+/* Estilos para o conteúdo do livro formatado */
+.content-wrapper {
+    padding: 15px;
+    text-align: justify;
+}
+
+.content-wrapper .book-paragraph:first-child::first-letter {
+    font-size: 2.5em;
+    float: left;
+    line-height: 0.8;
+    margin-right: 8px;
+    color: var(--accent-color);
+    font-family: 'Georgia', Times, serif;
+    padding-right: 5px;
 }
 
 /* Media queries */
@@ -380,28 +428,113 @@ select {
         flex: 1;
         min-width: 200px;
     }
+    
+    button, input {
+        width: auto;
+    }
+    
+    button {
+        min-width: 150px;
+    }
 }
 
-/* Estilos para o conteúdo do livro formatado */
-.content-wrapper {
-    padding: 10px;
+/* Media queries para responsividade */
+@media (max-width: 768px) {
+    .search-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .control-group {
+        flex: none;
+        width: 100%;
+    }
+    
+    h1 {
+        font-size: 2.5rem;
+    }
+    
+    .book-display {
+        padding: 20px 15px;
+    }
+    
+    main {
+        padding: 20px 15px;
+        margin: 15px 10px;
+        border-radius: 15px;
+    }
+    
+    .container {
+        padding: 0 10px;
+    }
+    
+    input, select, button {
+        width: 100%;
+    }
 }
 
-.book-paragraph {
-    text-indent: 30px;
-    margin-bottom: 15px;
-    text-align: justify;
-    position: relative;
-    overflow-wrap: break-word;
-}
-
-/* Decoração especial para o primeiro parágrafo */
-.content-wrapper .book-paragraph:first-child::first-letter {
-    font-size: 2.5em;
-    float: left;
-    line-height: 0.8;
-    margin-right: 8px;
-    color: var(--accent-color);
-    font-family: 'Georgia', Times, serif;
-    padding-right: 5px;
+@media (max-width: 480px) {
+    body {
+        font-size: 16px;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+    }
+    
+    nav {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    nav a {
+        width: 100%;
+        text-align: center;
+        border-radius: 8px;
+    }
+    
+    .book-display {
+        padding: 15px 10px;
+        border-radius: 10px;
+    }
+    
+    .book-paragraph {
+        text-indent: 20px;
+    }
+    
+    .control-group {
+        margin-bottom: 10px;
+    }
+    
+    .intro {
+        padding: 20px 10px;
+    }
+    
+    button {
+        padding: 12px 15px;
+        font-size: 14px;
+    }
+    
+    .book-container {
+        padding: 15px;
+        border-radius: 10px;
+    }
+    
+    .book-info {
+        padding: 12px;
+        border-radius: 8px;
+    }
+    
+    main {
+        margin: 10px;
+        border-radius: 12px;
+    }
+    
+    #search-stats p, #algorithm-info p {
+        font-size: 14px;
+    }
 }

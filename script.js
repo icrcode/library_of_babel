@@ -428,24 +428,40 @@ btnSearch.addEventListener('click', () => {
     // Obter o algoritmo selecionado
     const algoritmoSelecionado = searchAlgorithm.value;
     
+    // Variáveis para controlar a busca (declaradas antes do evento de cancelar)
+    let buscaAtiva = true;
+    let tentativas = 0;
+    let encontrado = false;
+    let foundSala, foundPrateleira, foundLivro, foundPagina;
+    
+    // Variáveis para controlar o tempo
+    const tempoInicio = Date.now();
+    let ultimaAtualizacao = tempoInicio;
+    let ultimasTentativas = 0;
+    
+    // Guardar o evento original
+    const originalOnClick = btnSearch.onclick;
+    
     // Desabilitar o botão de busca e mudar seu texto
-    btnSearch.disabled = true;
     btnSearch.textContent = 'Cancelar Busca';
     
-    // Mudar a função do botão para cancelar a busca em andamento
-    let buscaAtiva = true;
-    const originalOnClick = btnSearch.onclick;
-    btnSearch.onclick = () => {
+    // Criar um novo evento para cancelar a busca
+    btnSearch.onclick = function() {
+        // Marcar a busca como inativa
         buscaAtiva = false;
-        btnSearch.textContent = 'Buscar';
-        btnSearch.onclick = originalOnClick;
-        const tempoDecorrido = ((Date.now() - tempoInicio) / 1000).toFixed(2);
-        searchCoords.textContent = `Busca cancelada após ${tentativas} tentativas (${tempoDecorrido} segundos).`;
-        btnGotoResult.style.display = 'none';
-        btnSearch.disabled = false;
         
         // Esconder estatísticas
         searchStats.style.display = 'none';
+        searchResults.style.display = 'none';
+        
+        // Atualizar o texto do botão
+        btnSearch.textContent = 'Buscar';
+        
+        // Mostrar mensagem de cancelamento
+        alert('Busca cancelada após ' + tentativas + ' tentativas.');
+        
+        // Restaurar o evento original do botão
+        btnSearch.onclick = originalOnClick;
     };
     
     // Mostrar resultados e indicar busca em andamento
@@ -460,16 +476,6 @@ btnSearch.addEventListener('click', () => {
     velocidadeBuscaElement.textContent = '0';
     estimativaTempoElement.textContent = 'calculando...';
     progressBar.style.width = '0%';
-    
-    // Variáveis para controlar a busca
-    let tentativas = 0;
-    let encontrado = false;
-    let foundSala, foundPrateleira, foundLivro, foundPagina;
-    
-    // Variáveis para controlar o tempo
-    const tempoInicio = Date.now();
-    let ultimaAtualizacao = tempoInicio;
-    let ultimasTentativas = 0;
     
     // Função para calcular taxa de busca e estimativa de tempo
     function calcularEstimativa(tentativasAtuais, tempoAtual) {
@@ -572,6 +578,11 @@ btnSearch.addEventListener('click', () => {
 
     // Função para realizar um lote de buscas
     function realizarLoteDeBuscas() {
+        // Se a busca foi cancelada, não continuar
+        if (!buscaAtiva) {
+            return;
+        }
+        
         // Número de tentativas por lote (ajuste para controlar o desempenho)
         const tentativasPorLote = 20;
         
@@ -678,7 +689,6 @@ btnSearch.addEventListener('click', () => {
             };
             
             // Restaurar o botão de busca
-            btnSearch.disabled = false;
             btnSearch.textContent = 'Buscar';
             btnSearch.onclick = originalOnClick;
         } else if (buscaAtiva) {
