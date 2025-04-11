@@ -22,7 +22,7 @@
     </header>
     
     <main class="container">
-        <section id="intro" class="intro">
+        <section id="intro" class="intro"> 
             <p>Bem-vindo à Biblioteca de Alexandria Virtual, inspirada na Biblioteca de Babel de Jorge Luis Borges. Esta biblioteca contém todos os textos possíveis que podem ser escritos com letras minúsculas, espaços, vírgulas e pontos.</p>
             <p>Cada livro é identificado por coordenadas únicas. Use os controles abaixo para navegar pela biblioteca ou buscar textos específicos.</p>
         </section>
@@ -72,13 +72,42 @@
                     <input type="text" id="search-text" placeholder="Texto para encontrar na biblioteca...">
                 </div>
                 <div class="control-group">
+                    <label for="search-algorithm">Algoritmo de Busca:</label>
+                    <select id="search-algorithm">
+                        <option value="boyer-moore" selected>Boyer-Moore (Padrão)</option>
+                        <option value="rabin-karp">Rabin-Karp</option>
+                        <option value="kmp">Knuth-Morris-Pratt (KMP)</option>
+                        <option value="naive">Naive Search (Força bruta)</option>
+                    </select>
+                </div>
+                <div class="control-group">
                     <button id="btn-search">Buscar</button>
                 </div>
+            </div>
+            
+            <div id="search-stats" class="book-info" style="display: none;">
+                <h3>Estatísticas da Busca</h3>
+                <p><strong>Tempo decorrido:</strong> <span id="tempo-decorrido">0</span> segundos</p>
+                <p><strong>Tentativas:</strong> <span id="tentativas-busca">0</span></p>
+                <p><strong>Velocidade:</strong> <span id="velocidade-busca">0</span> tentativas/segundo</p>
+                <p><strong>Estimativa de tempo:</strong> <span id="estimativa-tempo">calculando...</span></p>
+                <div class="progress-bar-container">
+                    <div id="progress-bar" class="progress-bar"></div>
+                </div>
+            </div>
+            
+            <div id="algorithm-info" class="book-info">
+                <h3>Sobre os Algoritmos de Busca</h3>
+                <p><strong>Boyer-Moore:</strong> Um dos algoritmos mais eficientes, examina caracteres da direita para a esquerda e pode pular grandes partes do texto.</p>
+                <p><strong>Rabin-Karp:</strong> Usa hashing para encontrar padrões, ideal para buscar múltiplos padrões simultaneamente.</p>
+                <p><strong>KMP (Knuth-Morris-Pratt):</strong> Evita retrocessos desnecessários, utilizando informações sobre o próprio padrão para otimizar a busca.</p>
+                <p><strong>Naive Search:</strong> Método de força bruta que compara cada caractere do texto com o padrão. Simples, mas pode ser lento para textos grandes.</p>
             </div>
             
             <div id="search-results" class="book-info" style="display: none;">
                 <h3>Resultados da Busca</h3>
                 <p>Texto encontrado nas coordenadas: <span class="coordinates" id="search-coords"></span></p>
+                <p>Algoritmo utilizado: <span id="used-algorithm"></span></p>
                 <button id="btn-goto-result">Ir para este livro</button>
             </div>
         </section>
