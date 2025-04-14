@@ -1,95 +1,99 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biblioteca de Alexandria Virtual</title>
-    
+    <title>LUMON - Biblioteca de Dados Não Refinados da Lumon Industries</title>
+
     <link rel="stylesheet" href="style.css">
     <link rel="apple-touch-icon" sizes="180x180" href="img/favicon.png">
-    <meta name="theme-color" content="#4a3216">
+    <meta name="theme-color" content="#0d5661">
 </head>
+
 <body>
     <header>
         <div class="container">
-            <h1>Biblioteca de Alexandria Virtual</h1>
-            <p class="subtitle">Todos os livros possíveis que já foram ou serão escritos</p>
+            <h1>LUMON INDUSTRIES</h1>
+            <p class="subtitle">DEPARTAMENTO DE BASE DE DADOS NÃO REFINADOS</p>
             <nav>
-                <a href="#" id="link-explore">Explorar</a>
-                <a href="#" id="link-search">Buscar</a>
                 <a href="#" id="link-about">Sobre</a>
+                <a href="#" id="link-search">Buscar</a>
+                <a href="#" id="link-explore">Explorar</a>
                 <a href="#" id="link-reference">Referência</a>
             </nav>
         </div>
     </header>
-    
+
     <main class="container">
-        <section id="intro" class="intro"> 
-            <p>Bem-vindo à Biblioteca de Alexandria Virtual, inspirada na Biblioteca de Babel de Jorge Luis Borges. Esta biblioteca contém todos os textos possíveis que podem ser escritos com letras minúsculas, espaços, vírgulas e pontos.</p>
-            <p>Cada livro é identificado por coordenadas únicas. Use os controles abaixo para navegar pela biblioteca ou buscar textos específicos.</p>
-        </section>
-        
         <section id="book-explorer" class="book-container">
-            <h2>Explorador de Livros</h2>
+            <h2>Terminal de Exploração</h2>
             <div class="search-controls">
                 <div class="control-group">
-                    <label for="sala">Sala</label>
+                    <label for="sala">Setor</label>
                     <input type="text" id="sala" placeholder="Hexadecimal" value="1a2b3c4d">
                 </div>
                 <div class="control-group">
-                    <label for="prateleira">Prateleira</label>
+                    <label for="prateleira">Unidade</label>
                     <input type="number" id="prateleira" min="1" max="5" value="3">
                 </div>
                 <div class="control-group">
-                    <label for="livro">Livro</label>
+                    <label for="livro">Arquivo</label>
                     <input type="number" id="livro" min="1" max="32" value="16">
                 </div>
                 <div class="control-group">
-                    <label for="pagina">Página</label>
+                    <label for="pagina">Segmento</label>
                     <input type="number" id="pagina" min="1" max="410" value="42">
                 </div>
                 <div class="control-group">
-                    <button id="btn-random" class="btn-secondary">Livro Aleatório</button>
+                    <button id="btn-random" class="btn-secondary">Arquivo Aleatório</button>
                 </div>
                 <div class="control-group">
-                    <button id="btn-generate" class="btn-primary">Gerar Livro</button>
+                    <button id="btn-generate" class="btn-primary">Carregar Arquivo</button>
                 </div>
             </div>
-            
+
             <div class="book-display" id="book-content">
-                <div class="loading">Carregando...</div>
+                <div class="lumon-logo">LUMON TERMINAL</div>
+                <div class="loading">Inicializando MDR DataSphere...<span class="terminal-caret"></span></div>
             </div>
-            
+
             <div class="book-info">
-                <p>Coordenadas: <span class="coordinates" id="current-coords">Sala 1a2b3c4d, Prateleira 3, Livro 16, Página 42</span></p>
-                <p>Esta página contém um dos infinitos textos possíveis gerados algoritmicamente.</p>
+                <p>Coordenadas: <span class="coordinates" id="current-coords">Setor 1a2b3c4d, Unidade 3, Arquivo 16,
+                        Segmento 42</span></p>
+                <p>Este segmento contém um dos infinitos textos possíveis gerados algoritmicamente.</p>
             </div>
         </section>
-        
+
         <section id="text-search" class="book-container" style="display: none;">
-            <h2>Buscar Texto</h2>
+            <h2>Mecanismo de Busca</h2>
             <div class="search-controls">
                 <div class="control-group" style="flex: 2;">
-                    <label for="search-text">Digite o texto para buscar</label>
-                    <input type="text" id="search-text" placeholder="Texto para encontrar na biblioteca...">
+                    <label for="search-text">Digite a sequência para buscar</label>
+                    <textarea id="search-text" rows="4"
+                        placeholder="Digite aqui o texto exato para localizar nos arquivos..."></textarea>
+                    <p class="input-helper">PROTOCOLO DE ENTRADA: Caracteres alfanuméricos (a-z, A-Z), espaços,
+                        vírgulas e pontos são processados pelo sistema. Sensível a acentuação. Sequências com mais
+                        de 100 caracteres podem exigir tempo de processamento adicional.</p>
                 </div>
                 <div class="control-group">
-                    <label for="search-algorithm">Algoritmo de Busca</label>
+                    <label for="search-algorithm">Protocolo de Busca</label>
                     <select id="search-algorithm">
                         <option value="direct-hash" selected>Hash Direto (Instantâneo)</option>
                         <option value="boyer-moore">Boyer-Moore (Padrão)</option>
                         <option value="rabin-karp">Rabin-Karp</option>
                         <option value="kmp">Knuth-Morris-Pratt (KMP)</option>
-                        <option value="naive">Naive Search (Força bruta)</option>
+                        <option value="naive">Busca Sequencial (Protocolo Padrão)</option>
                     </select>
                 </div>
                 <div class="control-group">
-                    <button id="btn-search" class="btn-primary">Buscar</button>
+                    <button id="btn-search" class="btn-primary">Iniciar Busca</button>
+                    <button id="btn-cancel-search" class="btn-secondary">Cancelar Busca</button>
                 </div>
             </div>
-            
+
             <div id="search-stats" class="book-info" style="display: none;">
-                <h3>Estatísticas da Busca</h3>
+                <h3>Métricas de Processamento</h3>
                 <div class="stats-grid">
                     <div class="stat-item">
                         <p><strong>Tempo decorrido</strong></p>
@@ -112,84 +116,106 @@
                     <div id="progress-bar" class="progress-bar"></div>
                 </div>
                 <div class="direct-hash-notice">
-                    <p><strong>Hash Direto Ativado ⚡</strong></p>
-                    <p>Este método calcula instantaneamente as coordenadas sem realizar buscas na biblioteca. As estatísticas de busca não são aplicáveis neste caso.</p>
+                    <p><strong>Protocolo Hash Direto Ativado ⚡</strong></p>
+                    <p>Este método calcula instantaneamente as coordenadas sem realizar buscas sequenciais. As
+                        métricas de processamento não são aplicáveis neste caso.</p>
                 </div>
             </div>
-            
-            <div id="algorithm-info" class="book-info">
-                <h3>Sobre os Algoritmos de Busca</h3>
-                <div class="algorithm-grid">
-                    <div class="algorithm-item">
-                        <h4>Hash Direto</h4>
-                        <p>Calcula diretamente as coordenadas do texto através de um algoritmo hash determinístico, encontrando o resultado instantaneamente sem precisar buscar na biblioteca.</p>
-                    </div>
-                    <div class="algorithm-item">
-                        <h4>Boyer-Moore</h4>
-                        <p>Um dos algoritmos mais eficientes, examina caracteres da direita para a esquerda e pode pular grandes partes do texto.</p>
-                    </div>
-                    <div class="algorithm-item">
-                        <h4>Rabin-Karp</h4>
-                        <p>Usa hashing para encontrar padrões, ideal para buscar múltiplos padrões simultaneamente.</p>
-                    </div>
-                    <div class="algorithm-item">
-                        <h4>KMP (Knuth-Morris-Pratt)</h4>
-                        <p>Evita retrocessos desnecessários, utilizando informações sobre o próprio padrão para otimizar a busca.</p>
-                    </div>
-                    <div class="algorithm-item">
-                        <h4>Naive Search</h4>
-                        <p>Método de força bruta que compara cada caractere do texto com o padrão. Simples, mas pode ser lento para textos grandes.</p>
-                    </div>
-                </div>
-            </div>
-            
+
             <div id="search-results" class="book-info" style="display: none;">
                 <h3>Resultados da Busca</h3>
-                <p>Texto encontrado nas coordenadas: <span class="coordinates" id="search-coords"></span></p>
-                <p>Algoritmo utilizado: <span id="used-algorithm"></span></p>
-                <button id="btn-goto-result" class="btn-primary">Ir para este livro</button>
+                <p>Sequência encontrada nas coordenadas: <span class="coordinates" id="search-coords"></span></p>
+                <p>Protocolo utilizado: <span id="used-algorithm"></span></p>
+                <button id="btn-goto-result" class="btn-primary">Acessar este arquivo</button>
             </div>
         </section>
-        
+
         <section id="about" class="book-container" style="display: none;">
-            <h2>Sobre a Biblioteca</h2>
+            <div id="intro" class="intro">
+                <h2>Sobre o Terminal</h2>
+                <p>Bem-vindo ao Biblioteca de Dados Não Refinados da Lumon Industries. Este terminal contém todos os
+                    arquivos de texto possíveis que podem ser escritos com letras minúsculas, espaços, vírgulas e
+                    pontos, que Kier siga seu destino.</p>
+            </div>
             <div class="about-content">
-                <p>A Biblioteca de Alexandria Virtual é inspirada na obra "A Biblioteca de Babel" do escritor argentino Jorge Luis Borges. Na história de Borges, a biblioteca contém todos os livros possíveis de 410 páginas.</p>
-                <p>Esta versão digital simula esse conceito usando um algoritmo determinístico que gera texto pseudoaleatório baseado nas coordenadas fornecidas.</p>
-                <p>Cada coordenada representa um livro único na biblioteca, permitindo que você "visite" o mesmo livro sempre que inserir as mesmas coordenadas.</p>
-                <p>Conceitualmente, esta biblioteca contém todos os textos que podem ser escritos: todos os clássicos da literatura, todas as biografias (verdadeiras e falsas), todos os livros que ainda serão escritos, e infinitas variações de textos sem sentido.</p>
+                <p>A Biblioteca de Dados Não Finados da Lumon Industries da Lumon Industries é inspirado na obra "A
+                    Biblioteca de Babel" do escritor Jorge Luis Borges.</p>
+                <p>Esta interface simula um terminal de acesso aos infinitos dados do departamento Biblioteca de Dados
+                    Não Refinados da Lumon
+                    , onde cada arquivo é gerado por um algoritmo determinístico baseado nas coordenadas
+                    fornecidas.</p>
+                <p>Cada coordenada representa um arquivo único no terminal, permitindo que você "acesse" o mesmo
+                    conteúdo sempre que inserir as mesmas coordenadas.</p>
+                <p>Conceitualmente, este terminal contém todos os textos que podem ser escritos: todos os clássicos
+                    da
+                    literatura, todas as biografias, todos os documentos que ainda serão escritos, e infinitas
+                    variações
+                    sem sentido.</p>
             </div>
         </section>
-        
+
         <section id="reference" class="book-container" style="display: none;">
-            <h2>Referência</h2>
+            <h2>Manual de Referência</h2>
             <div class="reference-content">
-                <h3>Como usar a Biblioteca de Alexandria Virtual</h3>
+                <h3>Como utilizar o Terminal de Macrodados</h3>
                 <ul class="reference-list">
-                    <li><strong>Explorar:</strong> Use coordenadas específicas para encontrar um livro.</li>
-                    <li><strong>Livro Aleatório:</strong> Gera coordenadas aleatórias para um novo livro.</li>
-                    <li><strong>Buscar:</strong> Encontre as coordenadas de um texto específico.</li>
+                    <li><strong>Explorar:</strong> Use coordenadas específicas para encontrar um arquivo.</li>
+                    <li><strong>Arquivo Aleatório:</strong> Gera coordenadas aleatórias para um novo arquivo.</li>
+                    <li><strong>Buscar:</strong> Encontre as coordenadas de uma sequência específica.</li>
                 </ul>
-                
-                <h3>Cada livro tem coordenadas únicas</h3>
+
+                <h3>Cada arquivo tem coordenadas únicas</h3>
                 <ul class="reference-list">
-                    <li><strong>Sala:</strong> Um código hexadecimal de 8 caracteres (ex: 1a2b3c4d)</li>
-                    <li><strong>Prateleira:</strong> Um número de 1 a 5</li>
-                    <li><strong>Livro:</strong> Um número de 1 a 32</li>
-                    <li><strong>Página:</strong> Um número de 1 a 410</li>
+                    <li><strong>Setor:</strong> Um código hexadecimal de 8 caracteres (ex: 1a2b3c4d)</li>
+                    <li><strong>Unidade:</strong> Um número de 1 a 5</li>
+                    <li><strong>Arquivo:</strong> Um número de 1 a 32</li>
+                    <li><strong>Segmento:</strong> Um número de 1 a 410</li>
                 </ul>
+
+                <div id="algorithm-info" class="book-info">
+                    <h3>Protocolos de Busca Disponíveis</h3>
+                    <div class="algorithm-grid">
+                        <div class="algorithm-item">
+                            <h4>Hash Direto</h4>
+                            <p>Calcula diretamente as coordenadas do texto através de um algoritmo hash
+                                determinístico, encontrando o resultado instantaneamente.</p>
+                        </div>
+                        <div class="algorithm-item">
+                            <h4>Boyer-Moore</h4>
+                            <p>Protocolo otimizado que examina caracteres da direita para a esquerda e pode pular
+                                grandes partes do texto.</p>
+                        </div>
+                        <div class="algorithm-item">
+                            <h4>Rabin-Karp</h4>
+                            <p>Utiliza hashing para encontrar padrões, ideal para buscar múltiplos padrões
+                                simultaneamente.</p>
+                        </div>
+                        <div class="algorithm-item">
+                            <h4>KMP</h4>
+                            <p>Evita retrocessos desnecessários, utilizando informações sobre o próprio padrão para
+                                otimizar a busca.</p>
+                        </div>
+                        <div class="algorithm-item">
+                            <h4>Busca Sequencial</h4>
+                            <p>Protocolo de força bruta que compara cada caractere do texto com o padrão. Simples,
+                                mas ineficiente para textos extensos.</p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
     </main>
-    
+
     <footer>
         <div class="container">
-            <p>Biblioteca de Alexandria Virtual - Inspirada na Biblioteca de Babel de Jorge Luis Borges</p>
-            <p>Este projeto é uma demonstração conceitual.</p>
+            <p>LUMON INDUSTRIES - Terminal de Base de Dados Não Refinados da Lumon Industries</p>
+            <p>© Os funcionários são a espinha dorsal da indústria.</p>
         </div>
     </footer>
 
     <script src="script.js"></script>
 
 </body>
+
 </html>
