@@ -7,6 +7,7 @@
     --paper-color: #f4eed9;
     --apple-blur: rgba(244, 238, 217, 0.7);
     --apple-radius: 12px;
+    --container-width: 1200px;
 }
 
 * {
@@ -30,11 +31,12 @@ body {
 }
 
 .container {
-    max-width: 1200px;
+    max-width: var(--container-width);
     margin: 0 auto;
     padding: 0 20px;
     width: 100%;
     box-sizing: border-box;
+    overflow: hidden;
 }
 
 header {
@@ -128,6 +130,8 @@ main {
     overflow: hidden;
     text-align: justify;
     border: none;
+    box-sizing: border-box;
+    max-width: var(--container-width);
 }
 
 .intro {
@@ -154,6 +158,10 @@ main {
     margin-bottom: 40px;
     border: none;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .book-container h2 {
@@ -242,24 +250,39 @@ button:active {
     color: #333;
     padding: 30px;
     border-radius: var(--apple-radius);
-    min-height: 400px;
+    min-height: auto;
+    max-height: none;
     font-family: 'SF Mono', 'Courier New', monospace;
-    white-space: pre-wrap;
-    line-height: 1.8;
-    font-size: 1rem;
-    overflow-y: auto;
+    font-size: 0.85rem;
     margin-top: 20px;
     border: 1px solid rgba(217, 208, 176, 0.5);
     box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    column-count: 1;
+    column-count: 3;
+    column-gap: 30px;
+    column-rule: 1px solid rgba(217, 208, 176, 0.5);
     text-align: justify;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    overflow-y: visible;
+    hyphens: auto;
+    box-sizing: border-box;
+    line-height: 1.5;
+}
+
+.book-display p {
+    margin: 0 0 0.5em 0;
+    text-indent: 1.5em;
+    text-align: justify;
+    break-inside: avoid;
 }
 
 .book-display pre {
     white-space: pre-wrap;
     font-family: 'SF Mono', 'Courier New', monospace;
-    line-height: 1.8;
+    line-height: 1.5;
     text-align: justify;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .book-info {
@@ -308,7 +331,7 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 200px;
+    height: 100px;
     font-style: italic;
     color: var(--accent-color);
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='xMidYMid'%3E%3Ccircle cx='50' cy='50' fill='none' stroke='%238b5e34' stroke-width='10' r='35' stroke-dasharray='164.93361431346415 56.97787143782138'%3E%3CanimateTransform attributeName='transform' type='rotate' repeatCount='indefinite' dur='1s' values='0 50 50;360 50 50' keyTimes='0;1'%3E%3C/animateTransform%3E%3C/circle%3E%3C/svg%3E");
@@ -400,6 +423,9 @@ select {
     position: relative;
     display: inline;
     transition: all 0.3s ease;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .book-section-title {
@@ -412,10 +438,14 @@ select {
 }
 
 .book-paragraph {
-    margin-bottom: 20px;
-    line-height: 1.8;
+    margin-bottom: 0.5em;
+    line-height: 1.5;
     text-align: justify;
-    font-family: -apple-system, BlinkMacSystemFont, 'Georgia', Times, serif;
+    font-family: 'SF Mono', 'Courier New', monospace;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    text-indent: 1.5em;
 }
 
 .intro p:first-of-type::first-letter {
@@ -440,15 +470,28 @@ select {
 }
 
 .content-wrapper {
-    margin-top: 20px;
+    margin-top: 10px;
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    box-sizing: border-box;
+    column-span: all;
+}
+
+.content-wrapper p {
+    max-width: 100%;
+    text-align: justify;
+    box-sizing: border-box;
+    margin-bottom: 0.5em;
+    text-indent: 1.5em;
 }
 
 .content-wrapper .book-paragraph:first-child::first-letter {
-    font-size: 3em;
+    font-size: 2.5em;
     float: left;
     line-height: 0.8;
-    margin-right: 8px;
-    margin-top: 5px;
+    margin-right: 6px;
+    margin-top: 2px;
     color: var(--accent-color);
     font-family: 'Old English Text MT', 'Times New Roman', serif;
 }
@@ -470,6 +513,14 @@ select {
     }
 }
 
+@media (max-width: 992px) {
+    .book-display {
+        column-count: 2;
+        padding: 20px;
+        font-size: 0.8rem;
+    }
+}
+
 @media (max-width: 768px) {
     .search-controls {
         flex-direction: column;
@@ -485,7 +536,9 @@ select {
     }
     
     .book-display {
+        column-count: 1;
         padding: 20px;
+        font-size: 0.8rem;
     }
     
     main {
@@ -534,8 +587,9 @@ select {
     }
     
     .book-display {
-        font-size: 0.9rem;
         padding: 15px;
+        font-size: 0.9rem;
+        max-height: 500px;
     }
     
     .book-paragraph {
@@ -697,4 +751,11 @@ option[value="direct-hash"] {
 
 .direct-hash-active .direct-hash-notice {
     display: block;
+}
+
+/* Adicionar classe para limitar todos os conteúdos dentro de seus containers */
+p, h1, h2, h3, h4, h5, h6, span, div {
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }

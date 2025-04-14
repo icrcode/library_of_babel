@@ -199,7 +199,7 @@ function updateBook() {
     }
     
     // Mostrar carregando
-    bookContent.textContent = 'Carregando...';
+    bookContent.innerHTML = '<div class="loading">Carregando...</div>';
     
     // Atraso artificial para simular o carregamento
     setTimeout(() => {
@@ -232,32 +232,30 @@ function updateBook() {
             const regex = new RegExp(textoParaDestacar.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
             
             // Formatar o texto para exibição
-            let htmlContent = content
-                .replace(/\n\n/g, '</p><p class="book-paragraph">') // Parágrafos duplos
-                .replace(/\n/g, '<br>'); // Quebras de linha simples
+            // Melhorar a quebra de parágrafos e evitar estourar o container
+            let formattedContent = content.replace(/\s{2,}/g, ' '); // Remover excesso de espaços
             
-            // Adicionar tags de parágrafo inicial e final
-            htmlContent = '<p class="book-paragraph">' + htmlContent + '</p>';
+            // Dividir o texto em parágrafos mais curtos para melhor formatação
+            formattedContent = formatarTextoParagrafos(formattedContent);
             
             // Aplicar o destaque
-            htmlContent = htmlContent.replace(regex, `<span class="highlighted">${textoParaDestacar}</span>`);
+            formattedContent = formattedContent.replace(regex, `<span class="highlighted">${textoParaDestacar}</span>`);
             
             // Definir o conteúdo no elemento
-            contentElement.innerHTML = htmlContent;
+            contentElement.innerHTML = formattedContent;
             
             // Limpar o texto para destacar após usar
             textoParaDestacar = '';
         } else {
             // Formatar o texto para exibição
-            let htmlContent = content
-                .replace(/\n\n/g, '</p><p class="book-paragraph">') // Parágrafos duplos
-                .replace(/\n/g, '<br>'); // Quebras de linha simples
+            // Melhorar a quebra de parágrafos e evitar estourar o container
+            let formattedContent = content.replace(/\s{2,}/g, ' '); // Remover excesso de espaços
             
-            // Adicionar tags de parágrafo inicial e final
-            htmlContent = '<p class="book-paragraph">' + htmlContent + '</p>';
+            // Dividir o texto em parágrafos mais curtos para melhor formatação
+            formattedContent = formatarTextoParagrafos(formattedContent);
             
             // Definir o conteúdo no elemento
-            contentElement.innerHTML = htmlContent;
+            contentElement.innerHTML = formattedContent;
         }
         
         // Adicionar ao bookContent
@@ -266,6 +264,41 @@ function updateBook() {
         // Atualizar as coordenadas exibidas
         currentCoords.textContent = `Sala ${sala}, Prateleira ${prateleira}, Livro ${livro}, Página ${pagina}`;
     }, 500);
+}
+
+// Função para formatar o texto em parágrafos uniformes
+function formatarTextoParagrafos(texto) {
+    // Primeiro dividimos o texto por quebras de linha
+    const linhas = texto.split('\n');
+    let resultado = '';
+    let paragrafoAtual = '';
+    
+    // Para cada linha, formamos parágrafos com tamanho adequado
+    linhas.forEach(linha => {
+        if (linha.trim() === '') {
+            // Linha vazia indica quebra de parágrafo
+            if (paragrafoAtual !== '') {
+                resultado += `<p class="book-paragraph">${paragrafoAtual}</p>`;
+                paragrafoAtual = '';
+            }
+        } else {
+            // Adicionamos a linha ao parágrafo atual
+            paragrafoAtual += ' ' + linha.trim();
+            
+            // Se o parágrafo atingir um tamanho razoável, fechamos ele
+            if (paragrafoAtual.length > 400) {
+                resultado += `<p class="book-paragraph">${paragrafoAtual}</p>`;
+                paragrafoAtual = '';
+            }
+        }
+    });
+    
+    // Se ainda tiver texto no parágrafo atual, fecha ele
+    if (paragrafoAtual !== '') {
+        resultado += `<p class="book-paragraph">${paragrafoAtual}</p>`;
+    }
+    
+    return resultado;
 }
 
 // Gerar livro aleatório
@@ -518,8 +551,8 @@ btnSearch.addEventListener('click', () => {
         // Vamos garantir que o texto esteja presente quando o usuário visitar
         textoParaDestacar = searchText;
         
-        // Exibir resultados
-        searchStats.style.display = 'block';
+        // Exibir resultados (mas não as estatísticas para hash direto)
+        searchStats.style.display = 'none';
         searchResults.style.display = 'block';
         searchCoords.textContent = `Sala ${coords.sala}, Prateleira ${coords.prateleira}, Livro ${coords.livro}, Página ${coords.pagina}`;
         usedAlgorithm.textContent = 'Hash Direto (Instantâneo)';
