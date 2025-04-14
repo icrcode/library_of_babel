@@ -1,3 +1,13 @@
+@import url('https://rsms.me/inter/inter.css');
+
+@font-face {
+    font-family: 'Lumon Industries';
+    src: url('data:font/woff2;charset=utf-8;base64,d09GMgABAAAAAAMcAA4AAAAABkgAAALJAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGhYbIBwwBmAARBEICoJAghkLFAABNgIkAyQEIAWEFgc8GxoFyB6D426JpYgoIto/X8Zdy3PqEVRr//bsHX/AAD+wAdZIQgKpVDSTcHHADo0hYYGES+y/nx+X798NZDzAMxJ0VttcLw0MxehrQl6i87/fbeKa/N8gD9hCkeL/C8CIBl/TNAp4QBPN4qLdaPg0ndIGtkv08/PKAgKjgCSEWgi0lsqAduwqqYEgOXQAgdZKeNi438WdcJo0kHGmxaKDjHSA43l5IG1BQbEhP8QjPZRg56dTJwAIVLhHfACmoKe27JwDX0tJDywAxL/kA3owSMgwCyugW/ysBWq1hJ5ytR30lOBf0v221i0KAERHAg2YBkocBh4AkAOAEEIS5Vg7OR53McjNddHtdIc7RwPPta4yjAQCveCTw8eQXzsKmX5wgorrp6Hnrx2HPjxF1+uaTmoajtyh5WqsxMJTqAt+1ZLnBXWVRHjq6AEUeyTfLsDH3uE33KXz37MlPc+c/pTXlp4u4Jv/FhQ+z80JsdKwCGt4A9q7PhZM7q1P+aYU7vTC5P7GpO+K6Flq7/ZuX8/OXk87vepqgFBPuOgWWiV43zal2jI3dbA+dSdclzQ3yhfk8Fsk6wIACASPjQGOI5Hc/0GhNfh2aCOGXEX/b/hnzFnVQUNeIZi21NinGFwTIIK+8aezDaDawF0/u1i9u1iD07VIJ4TGTv4gIQS2AMC0GwGYAgKESdEQSHJ9CGSWyIdAHk8WFhKSpUkN/MnoVBmrsCJvMNBtk6FniExqb8jMZgvjOUQW1rolS71I4k9GpqDgSu6fE6dKrFq97oNzz7nICOmv5txClBPFw/mPG77oFrlMVKy0OLqmsRy00TNwMlHq0s0ii5aSmZmSTpcSVlp6OlkK6bSzMrMwUepgJqan0Y4EjygSHFnjnJzSuJY6HUzq8ZbeWcI6ORmRYkqW0MHKymIIhnMjcNqsBhFJZg0zn4SMWVnPKolEohQAAA==') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
     --primary-color: #0d5661;
     --secondary-color: #152d35;
@@ -17,6 +27,10 @@
     --divider-color: rgba(13, 86, 97, 0.08);
 }
 
+html {
+    height: 100%;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -30,9 +44,10 @@ body {
     background-color: var(--bg-color);
     color: var(--text-color);
     line-height: 1.5;
-    margin: 0;
-    padding: 0;
     text-align: left;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .container {
@@ -113,26 +128,24 @@ main {
     padding: 30px;
     background-color: var(--paper-color);
     box-shadow: none;
-    margin: 0 auto 40px;
+    margin: 0 auto;
     overflow: hidden;
     text-align: left;
     border: none;
     box-sizing: border-box;
     max-width: var(--container-width);
+    flex: 1 0 auto;
+    width: 100%;
 }
 
 .intro {
-    padding: 20px;
-    text-align: left;
+    margin: 40px auto 40px;
+    text-align: center;
     max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
     font-family: 'Helvetica Neue', Arial, sans-serif;
     font-size: 1rem;
-    line-height: 1.6;
-    border-bottom: none;
     position: relative;
-    margin-bottom: 30px;
+    padding: 0 15px;
 }
 
 .intro::after {
@@ -146,8 +159,8 @@ main {
 }
 
 .intro p {
-    margin-bottom: 20px;
-    text-align: left;
+    text-align: center;
+    padding: 20px;
 }
 
 .book-container {
@@ -177,7 +190,6 @@ main {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     font-size: 1.5rem;
     text-align: center;
-    margin-bottom: 25px;
     color: var(--primary-color);
     padding-bottom: 15px;
     border-bottom: none;
@@ -223,7 +235,9 @@ label {
     letter-spacing: 1px;
 }
 
-input, select, textarea {
+input,
+select,
+textarea {
     padding: 14px;
     border: 1px solid #e1e8ed;
     background-color: rgba(255, 255, 255, 0.9);
@@ -242,7 +256,9 @@ textarea {
     line-height: 1.6;
 }
 
-input:focus, select:focus, textarea:focus {
+input:focus,
+select:focus,
+textarea:focus {
     outline: none;
     border-color: var(--accent-color);
     box-shadow: none;
@@ -274,31 +290,67 @@ button:active {
 }
 
 .book-display {
-    background-color: var(--terminal-bg);
-    color: var(--terminal-green);
+    position: relative;
+    background-color: #001D2F;
+    color: #BDFFFF;
+    background-image: radial-gradient(rgba(25, 65, 100, 1), black 120%);
     padding: 20px;
     margin: 20px 0;
     overflow: auto;
-    font-family: var(--mono-font);
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
     font-size: 0.9rem;
     line-height: 1.6;
     height: 400px;
-    border: 1px solid rgba(225, 232, 237, 0.3);
+    border: none;
     white-space: pre-wrap;
     word-break: break-word;
+    font-feature-settings: "cv11";
+    font-smooth: never;
+    -webkit-font-smoothing: none;
+}
+
+.book-display::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    z-index: 2;
+    background-size: 100% 2px, 3px 100%;
+    pointer-events: none;
+}
+
+.book-display::after {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(18, 16, 16, 0.1);
+    opacity: 0;
+    z-index: 2;
+    pointer-events: none;
 }
 
 .book-display p {
     margin: 0;
     padding: 0;
-    font-family: var(--mono-font);
+    font-family: 'Inter', sans-serif;
+    color: #BDFFFF;
 }
 
 .book-display pre {
     margin: 0;
-    font-family: var(--mono-font);
+    font-family: 'Inter', sans-serif;
     white-space: pre-wrap;
     word-break: break-word;
+    color: #BDFFFF;
 }
 
 .book-info {
@@ -340,8 +392,9 @@ footer {
     padding: 20px 0;
     text-align: center;
     font-size: 0.8rem;
-    margin-top: 40px;
     position: relative;
+    width: 100%;
+    flex-shrink: 0;
 }
 
 footer::before {
@@ -365,16 +418,25 @@ footer::before {
     justify-content: center;
     align-items: center;
     height: 100%;
-    font-family: var(--mono-font);
-    color: var(--terminal-green);
+    font-family: 'Inter', sans-serif;
+    color: #BDFFFF;
     font-size: 1rem;
     letter-spacing: 2px;
     animation: blink 1s infinite;
 }
 
 @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 .progress-bar-container {
@@ -422,7 +484,10 @@ footer::before {
     margin-bottom: 8px;
 }
 
-#tempo-decorrido, #tentativas-busca, #velocidade-busca, #estimativa-tempo {
+#tempo-decorrido,
+#tentativas-busca,
+#velocidade-busca,
+#estimativa-tempo {
     font-family: var(--mono-font);
     font-weight: bold;
     color: var(--primary-color);
@@ -469,11 +534,11 @@ select {
 }
 
 .highlighted {
-    background-color: var(--accent-color);
-    color: white;
+    background-color: #BDFFFF;
+    color: #001D2F;
     padding: 0 4px;
     margin: 0 -4px;
-    border-radius: 2px;
+    border-radius: 0;
     display: inline-block;
     line-height: 1.4;
     position: relative;
@@ -492,11 +557,11 @@ select {
 }
 
 .book-paragraph {
-    font-family: var(--mono-font);
+    font-family: 'Inter', sans-serif;
     margin-bottom: 15px;
     font-size: 0.9rem;
     line-height: 1.8;
-    color: var(--terminal-green);
+    color: #BDFFFF;
     text-align: left;
 }
 
@@ -590,7 +655,7 @@ select {
     line-height: 1.6;
 }
 
-.reference-content h3, 
+.reference-content h3,
 .about-content h3 {
     font-size: 1.3rem;
     margin-bottom: 15px;
@@ -683,11 +748,11 @@ option[value="direct-hash"] {
     .search-controls {
         flex-wrap: wrap;
     }
-    
+
     .control-group {
         flex: 1;
     }
-    
+
     button {
         width: 100%;
         min-height: 55px;
@@ -704,36 +769,37 @@ option[value="direct-hash"] {
     .search-controls {
         flex-direction: column;
     }
-    
+
     .control-group {
         width: 100%;
     }
-    
+
     h1 {
         font-size: 1.8rem;
     }
-    
+
     .book-display {
         height: 300px;
     }
-    
+
     main {
         padding: 20px;
     }
-    
+
     .container {
         padding: 0 15px;
     }
-    
-    input, select {
+
+    input,
+    select {
         padding: 12px;
     }
-    
+
     button {
         padding: 15px 25px;
         margin: 10px 0;
     }
-    
+
     .stats-grid,
     .algorithm-grid {
         grid-template-columns: 1fr;
@@ -744,60 +810,61 @@ option[value="direct-hash"] {
     body {
         font-size: 0.9rem;
     }
-    
+
     h1 {
         font-size: 1.5rem;
     }
-    
+
     .subtitle {
         font-size: 0.8rem;
     }
-    
+
     nav {
         flex-direction: column;
         gap: 15px;
     }
-    
+
     nav a {
         width: 100%;
         text-align: center;
     }
-    
+
     .book-display {
         height: 250px;
         font-size: 0.8rem;
     }
-    
+
     .book-paragraph {
         font-size: 0.8rem;
     }
-    
+
     .control-group {
         gap: 10px;
     }
-    
+
     .intro {
         padding: 15px 0;
     }
-    
+
     button {
         padding: 15px 20px;
         font-size: 0.85rem;
     }
-    
+
     .book-container {
         padding: 15px;
     }
-    
+
     .book-info {
         padding: 10px;
     }
-    
+
     main {
         padding: 15px;
     }
-    
-    #search-stats p, #algorithm-info p {
+
+    #search-stats p,
+    #algorithm-info p {
         font-size: 0.8rem;
     }
 }
@@ -825,4 +892,38 @@ option[value="direct-hash"] {
     font-weight: bold;
     color: var(--primary-color);
     opacity: 0;
+}
+
+.lumon-logo {
+    font-family: 'Lumon Industries', sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1.2em;
+    letter-spacing: .02em;
+    margin-bottom: 1em;
+    color: #BDFFFF;
+}
+
+.terminal-caret {
+    display: inline-block;
+    width: 0.7em;
+    height: 1.2em;
+    margin-bottom: -0.2em;
+    padding: 0;
+    background-color: rgba(189, 255, 255, 1);
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0% {
+        background-color: rgba(189, 255, 255, 1)
+    }
+
+    50% {
+        background-color: rgba(189, 255, 255, 0.5)
+    }
+
+    100% {
+        background-color: rgba(189, 255, 255, 1)
+    }
 }
