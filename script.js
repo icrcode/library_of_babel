@@ -179,22 +179,22 @@ function updateBook() {
 
     // Validar inputs
     if (!/^[0-9a-f]{8}$/.test(sala)) {
-        alert('A sala deve ser um código hexadecimal de 8 caracteres.');
+        alert('O Setor deve ser um código hexadecimal de 8 caracteres.');
         return;
     }
 
     if (prateleira < 1 || prateleira > 5) {
-        alert('A prateleira deve ser um número de 1 a 5.');
+        alert('A Unidade deve ser um número de 1 a 5.');
         return;
     }
 
     if (livro < 1 || livro > 32) {
-        alert('O livro deve ser um número de 1 a 32.');
+        alert('O Arquivo deve ser um número de 1 a 32.');
         return;
     }
 
     if (pagina < 1 || pagina > 410) {
-        alert('A página deve ser um número de 1 a 410.');
+        alert('A Segmento deve ser um número de 1 a 410.');
         return;
     }
 
@@ -261,8 +261,10 @@ function updateBook() {
         // Adicionar ao bookContent
         bookContent.appendChild(contentElement);
 
+        
+
         // Atualizar as coordenadas exibidas
-        currentCoords.textContent = `Sala ${sala}, Prateleira ${prateleira}, Livro ${livro}, Página ${pagina}`;
+        currentCoords.textContent = `Setor ${sala}, Unidade ${prateleira}, Arquivo ${livro}, Segmento ${pagina}`;
     }, 500);
 }
 
