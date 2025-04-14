@@ -97,8 +97,8 @@ function generateBook(sala, prateleira, livro, pagina, textoInserir = null) {
     // Seed para o gerador pseudoaleatório
     const seed = simpleHash(`${sala}-${prateleira}-${livro}-${pagina}`);
     
-    // Caracteres possíveis (apenas letras minúsculas, espaço, vírgula e ponto)
-    const chars = 'abcdefghijklmnopqrstuvwxyz ,.';
+    // Caracteres possíveis (letras minúsculas e maiúsculas, espaço, vírgula e ponto)
+    const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ,.';
     
     // Tamanho da página (aproximadamente 40 linhas de 80 caracteres)
     const pageSize = 3200;
