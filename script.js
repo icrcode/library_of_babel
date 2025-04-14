@@ -82,7 +82,7 @@ function randomHex(length) {
 }
 
 // Função para gerar o conteúdo de um livro com base nas coordenadas
-function generateBook(sala, prateleira, livro, pagina) {
+function generateBook(sala, prateleira, livro, pagina, textoInserir = null) {
     // Função de hash simples para gerar texto determinístico
     function simpleHash(str) {
         let hash = 0;
@@ -107,22 +107,63 @@ function generateBook(sala, prateleira, livro, pagina) {
     let content = '';
     let pseudoRandom = seed;
     
-    for (let i = 0; i < pageSize; i++) {
-        // Atualizar o valor pseudoaleatório
-        pseudoRandom = (pseudoRandom * 16807) % 2147483647;
+    // Se temos um texto para inserir, vamos colocá-lo em uma posição aleatória dentro do conteúdo
+    if (textoInserir) {
+        // Gerar posição aleatória, mas não muito no início ou fim
+        const posicaoInsercao = 500 + (Math.abs(seed) % 1500);
         
-        // Selecionar caractere
-        const charIndex = Math.abs(pseudoRandom) % chars.length;
-        content += chars[charIndex];
-        
-        // Adicionar quebras de linha e parágrafos ocasionais
-        if (i % 80 === 79) {
-            content += '\n';
+        // Gerar primeira parte do conteúdo
+        for (let i = 0; i < posicaoInsercao; i++) {
+            pseudoRandom = (pseudoRandom * 16807) % 2147483647;
+            const charIndex = Math.abs(pseudoRandom) % chars.length;
+            content += chars[charIndex];
+            
+            if (i % 80 === 79) {
+                content += '\n';
+            }
+            
+            if (i % 80 === 0 && Math.abs(pseudoRandom) % 20 === 0) {
+                content += '\n';
+            }
         }
         
-        // 5% de chance de adicionar quebra de parágrafo
-        if (i % 80 === 0 && Math.abs(pseudoRandom) % 20 === 0) {
-            content += '\n';
+        // Inserir o texto buscado
+        content += textoInserir;
+        
+        // Continuar gerando o restante do conteúdo
+        const restante = pageSize - posicaoInsercao - textoInserir.length;
+        for (let i = 0; i < restante; i++) {
+            pseudoRandom = (pseudoRandom * 16807) % 2147483647;
+            const charIndex = Math.abs(pseudoRandom) % chars.length;
+            content += chars[charIndex];
+            
+            if ((posicaoInsercao + textoInserir.length + i) % 80 === 79) {
+                content += '\n';
+            }
+            
+            if ((posicaoInsercao + textoInserir.length + i) % 80 === 0 && Math.abs(pseudoRandom) % 20 === 0) {
+                content += '\n';
+            }
+        }
+    } else {
+        // Geração padrão sem inserção de texto
+        for (let i = 0; i < pageSize; i++) {
+            // Atualizar o valor pseudoaleatório
+            pseudoRandom = (pseudoRandom * 16807) % 2147483647;
+            
+            // Selecionar caractere
+            const charIndex = Math.abs(pseudoRandom) % chars.length;
+            content += chars[charIndex];
+            
+            // Adicionar quebras de linha e parágrafos ocasionais
+            if (i % 80 === 79) {
+                content += '\n';
+            }
+            
+            // 5% de chance de adicionar quebra de parágrafo
+            if (i % 80 === 0 && Math.abs(pseudoRandom) % 20 === 0) {
+                content += '\n';
+            }
         }
     }
     
@@ -162,8 +203,21 @@ function updateBook() {
     
     // Atraso artificial para simular o carregamento
     setTimeout(() => {
-        // Gerar o conteúdo
-        const content = generateBook(sala, prateleira, livro, pagina);
+        // Verificar se existe um texto específico para estas coordenadas
+        let textoEspecial = null;
+        
+        // Verificar no mapa de hash direto
+        if (window.directHashMap) {
+            for (const key in window.directHashMap) {
+                if (key.includes(`-${sala}-${prateleira}-${livro}-${pagina}`)) {
+                    textoEspecial = window.directHashMap[key];
+                    break;
+                }
+            }
+        }
+        
+        // Gerar o conteúdo, possivelmente com texto especial
+        const content = generateBook(sala, prateleira, livro, pagina, textoEspecial);
         
         // Limpar conteúdo anterior
         bookContent.innerHTML = '';
@@ -226,6 +280,52 @@ btnRandom.addEventListener('click', () => {
 
 // Gerar livro com coordenadas atuais
 btnGenerate.addEventListener('click', updateBook);
+
+// Evento de mudança no algoritmo de busca para atualizar a interface
+searchAlgorithm.addEventListener('change', function() {
+    // Se for Hash Direto, adiciona a classe para o estilo diferenciado
+    if (this.value === 'direct-hash') {
+        searchStats.classList.add('direct-hash-active');
+    } else {
+        searchStats.classList.remove('direct-hash-active');
+    }
+});
+
+// Função para calcular diretamente as coordenadas com base no texto
+function calculateDirectHash(text) {
+    // Cria um hash único baseado no texto
+    let hash = 0;
+    for (let i = 0; i < text.length; i++) {
+        const char = text.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash; // Converte para um número de 32 bits
+    }
+    
+    // Usa o hash para gerar coordenadas determinísticas
+    const hashHex = Math.abs(hash).toString(16).padStart(8, '0').substring(0, 8);
+    
+    // Gera valores determinísticos para cada coordenada
+    const prateleira = (Math.abs(hash) % 5) + 1;
+    const livro = (Math.abs(hash >> 8) % 32) + 1;
+    const pagina = (Math.abs(hash >> 16) % 410) + 1;
+    
+    // Criamos uma chave especial para associar com este texto
+    const coordKey = `${text}-${hashHex}-${prateleira}-${livro}-${pagina}`;
+    
+    // Armazenamos a associação entre o texto e as coordenadas
+    if (!window.directHashMap) {
+        window.directHashMap = {};
+    }
+    window.directHashMap[coordKey] = text;
+    
+    return {
+        sala: hashHex,
+        prateleira: prateleira,
+        livro: livro,
+        pagina: pagina,
+        textKey: coordKey
+    };
+}
 
 // Implementação dos Algoritmos de Busca de Texto
 
@@ -402,31 +502,116 @@ function naiveSearch(text, pattern) {
 
 // Buscar texto
 btnSearch.addEventListener('click', () => {
-    const text = inputSearchText.value.trim();
+    const searchText = inputSearchText.value.trim();
+    const algoritmoSelecionado = searchAlgorithm.value;
     
-    if (!text) {
+    if (!searchText) {
         alert('Por favor, digite um texto para buscar.');
         return;
     }
     
+    // Se for o método de hash direto, calcule instantaneamente
+    if (algoritmoSelecionado === 'direct-hash') {
+        // Calcular coordenadas diretamente
+        const coords = calculateDirectHash(searchText);
+        
+        // Vamos garantir que o texto esteja presente quando o usuário visitar
+        textoParaDestacar = searchText;
+        
+        // Exibir resultados
+        searchStats.style.display = 'block';
+        searchResults.style.display = 'block';
+        searchCoords.textContent = `Sala ${coords.sala}, Prateleira ${coords.prateleira}, Livro ${coords.livro}, Página ${coords.pagina}`;
+        usedAlgorithm.textContent = 'Hash Direto (Instantâneo)';
+        
+        // Armazenar coordenadas para o botão "Ir para este livro"
+        searchResults.dataset.sala = coords.sala;
+        searchResults.dataset.prateleira = coords.prateleira;
+        searchResults.dataset.livro = coords.livro;
+        searchResults.dataset.pagina = coords.pagina;
+        
+        // Configurar o botão "Ir para este livro"
+        btnGotoResult.style.display = 'block';
+        btnGotoResult.onclick = () => {
+            inputSala.value = coords.sala;
+            inputPrateleira.value = coords.prateleira;
+            inputLivro.value = coords.livro;
+            inputPagina.value = coords.pagina;
+            
+            // Voltar para o explorador e atualizar o livro
+            linkExplore.click();
+            updateBook();
+        };
+        
+        return;
+    }
+    
     // Verificar o tamanho do texto
-    if (text.length > 3200) {
+    if (searchText.length > 3200) {
         alert('O texto de busca não pode ter mais de 3200 caracteres.');
         return;
     }
     
     // Verificar se o texto contém apenas caracteres válidos
     const validChars = /^[a-z ,.]*$/;
-    if (!validChars.test(text)) {
+    if (!validChars.test(searchText)) {
         alert('O texto de busca só pode conter letras minúsculas, espaços, vírgulas e pontos.');
         return;
     }
     
     // Armazenar o texto para destacar quando o livro for carregado
-    textoParaDestacar = text;
+    textoParaDestacar = searchText;
     
     // Obter o algoritmo selecionado
-    const algoritmoSelecionado = searchAlgorithm.value;
+    usedAlgorithm.textContent = searchAlgorithm.options[searchAlgorithm.selectedIndex].text;
+    
+    // Simulação da busca
+    searchResults.style.display = 'none';
+    searchStats.style.display = 'block';
+    
+    // Estimar dificuldade baseada no tamanho do texto
+    let dificuldade;
+    
+    if (searchText.length <= 1) {
+        dificuldade = 29; // Apenas um caractere
+    } else if (searchText.length <= 3) {
+        dificuldade = 1000; // Textos muito curtos
+    } else if (searchText.length <= 5) {
+        dificuldade = 50000; // Textos curtos
+    } else if (searchText.length <= 7) {
+        dificuldade = 500000; // Textos médios
+    } else if (searchText.length <= 10) {
+        dificuldade = 5000000; // Textos longos
+    } else {
+        dificuldade = 50000000; // Textos muito longos
+    }
+    
+    // Ajuste baseado no algoritmo (estimativa simplificada)
+    let fatorAlgoritmo = 1;
+    
+    switch (algoritmoSelecionado) {
+        case 'boyer-moore':
+            fatorAlgoritmo = 0.8; // Mais eficiente
+            break;
+        case 'rabin-karp':
+            fatorAlgoritmo = 0.9;
+            break;
+        case 'kmp':
+            fatorAlgoritmo = 0.95;
+            break;
+        case 'naive':
+            fatorAlgoritmo = 1.2; // Menos eficiente
+            break;
+    }
+    
+    dificuldade = Math.round(dificuldade * fatorAlgoritmo);
+    
+    // Inicializar as variáveis de busca
+    let startSala = '00000000';
+    let currentSala = startSala;
+    let currentPrateleira = 1;
+    let currentLivro = 1;
+    let currentPagina = 1;
     
     // Variáveis para controlar a busca (declaradas antes do evento de cancelar)
     let buscaAtiva = true;
@@ -488,22 +673,21 @@ btnSearch.addEventListener('click', () => {
         // Considerando que cada caractere tem 29 possibilidades (a-z, espaço, vírgula, ponto)
         let dificuldade;
         
-        if (text.length <= 1) {
+        if (searchText.length <= 1) {
             dificuldade = 29; // Apenas um caractere
-        } else if (text.length <= 3) {
+        } else if (searchText.length <= 3) {
             dificuldade = 1000; // Textos muito curtos
-        } else if (text.length <= 5) {
+        } else if (searchText.length <= 5) {
             dificuldade = 50000; // Textos curtos
-        } else if (text.length <= 7) {
+        } else if (searchText.length <= 7) {
             dificuldade = 500000; // Textos médios
-        } else if (text.length <= 10) {
+        } else if (searchText.length <= 10) {
             dificuldade = 5000000; // Textos longos
         } else {
             dificuldade = 50000000; // Textos muito longos
         }
         
         // Ajuste baseado no algoritmo (estimativa simplificada)
-        const algoritmoSelecionado = searchAlgorithm.value;
         let fatorAlgoritmo = 1;
         
         switch (algoritmoSelecionado) {
@@ -618,19 +802,19 @@ btnSearch.addEventListener('click', () => {
             
             switch (algoritmoSelecionado) {
                 case 'boyer-moore':
-                    encontradoEm = boyerMooreSearch(conteudo, text);
+                    encontradoEm = boyerMooreSearch(conteudo, searchText);
                     break;
                 case 'rabin-karp':
-                    encontradoEm = rabinKarpSearch(conteudo, text);
+                    encontradoEm = rabinKarpSearch(conteudo, searchText);
                     break;
                 case 'kmp':
-                    encontradoEm = kmpSearch(conteudo, text);
+                    encontradoEm = kmpSearch(conteudo, searchText);
                     break;
                 case 'naive':
-                    encontradoEm = naiveSearch(conteudo, text);
+                    encontradoEm = naiveSearch(conteudo, searchText);
                     break;
                 default:
-                    encontradoEm = boyerMooreSearch(conteudo, text);
+                    encontradoEm = boyerMooreSearch(conteudo, searchText);
             }
             
             if (encontradoEm !== -1) {
